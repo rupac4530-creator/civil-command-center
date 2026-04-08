@@ -5868,7 +5868,7 @@ resetGame = async function() {
 </html>"""
 
 
-def run_server():
+def main():
     """CLI entry point for `uv run server` (OpenEnv convention)."""
     import uvicorn
     host = os.getenv("HOST", "0.0.0.0")
@@ -5878,6 +5878,5 @@ def run_server():
 
 
 if __name__ == "__main__":
-    import uvicorn
-    port = int(os.getenv("PORT", "8000"))
-    uvicorn.run("server.app:app", host="0.0.0.0", port=port, reload=False)
+    main()
+

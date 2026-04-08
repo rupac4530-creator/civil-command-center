@@ -19,6 +19,7 @@ dependencies = [
     "pydantic>=2.0.0",
     "requests>=2.31.0",
     "openai>=1.0.0",
+    "openenv-core>=0.2.0",
 ]
 
 [project.optional-dependencies]
@@ -28,7 +29,7 @@ dev = [
 ]
 
 [project.scripts]
-server = "server.app:run_server"
+server = "server.app:main"
 
 [tool.setuptools.packages.find]
 include = ["*"]
