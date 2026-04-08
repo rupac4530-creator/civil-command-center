@@ -364,6 +364,25 @@ class CivilCommandCenter:
             if not collapse:
                 feedback += " 🏁 Episode complete!"
 
+            # ── Compute graded task score for final reward ────
+            # OpenEnv requires the final reward to be the task score
+            # strictly between 0 and 1 (exclusive).
+            summary = self.get_episode_summary()
+            task_id = self._state.task_id
+            try:
+                if task_id == "task_hard":
+                    from graders.grader_hard import grade_hard
+                    turn_reward = grade_hard(summary)
+                elif task_id == "task_medium" or task_id == "task_demo_10":
+                    from graders.grader_medium import grade_medium
+                    turn_reward = grade_medium(summary)
+                else:
+                    from graders.grader_easy import grade_easy
+                    turn_reward = grade_easy(summary)
+            except Exception:
+                # Fallback: clamp accumulated reward to valid range
+                turn_reward = round(min(0.99, max(0.01, self._state.total_reward / max(self._state.max_turns, 1))), 4)
+
         return self._build_observation(
             reward=turn_reward,
             done=done,
