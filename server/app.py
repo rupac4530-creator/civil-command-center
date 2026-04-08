@@ -243,7 +243,9 @@ async def favicon():
 
 
 @app.post("/reset")
-async def reset(request: ResetRequest):
+async def reset(request: Optional[ResetRequest] = None):
+    if request is None:
+        request = ResetRequest()
     sid, env = sessions.create()
     obs = env.reset(seed=request.seed, episode_id=request.episode_id, task_id=request.task_id)
     return {"session_id": sid, "observation": obs.model_dump(), "done": obs.done, "reward": obs.reward}
