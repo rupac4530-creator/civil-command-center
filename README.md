@@ -1,3 +1,18 @@
+---
+title: Civil Command Center
+emoji: 🏛️
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 8000
+tags:
+  - openenv
+  - reinforcement-learning
+  - civilization
+  - decision-making
+  - agent-evaluation
+---
+
 <p align="center">
   <img src="docs/dashboard.png" alt="Civil Command Center" width="100%"/>
 </p>
