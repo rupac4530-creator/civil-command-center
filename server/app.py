@@ -242,13 +242,20 @@ async def favicon():
     return Response(status_code=204)
 
 
+def _clamp_reward(r) -> float:
+    """Ensure reward is strictly between 0 and 1 (exclusive) for OpenEnv compliance."""
+    if r is None:
+        return 0.5
+    return round(min(0.99, max(0.01, float(r))), 4)
+
+
 @app.post("/reset")
 async def reset(request: Optional[ResetRequest] = None):
     if request is None:
         request = ResetRequest()
     sid, env = sessions.create()
     obs = env.reset(seed=request.seed, episode_id=request.episode_id, task_id=request.task_id)
-    return {"session_id": sid, "observation": obs.model_dump(), "done": obs.done, "reward": obs.reward}
+    return {"session_id": sid, "observation": obs.model_dump(), "done": obs.done, "reward": _clamp_reward(obs.reward)}
 
 
 @app.post("/step/{session_id}")
@@ -258,7 +265,7 @@ async def step(session_id: str, request: StepRequest):
         return JSONResponse(status_code=404, content={"error": "Session not found. Call /reset first."})
     action = CivAction(action_type=request.action_type, target_message_id=request.target_message_id, reason=request.reason)
     obs = env.step(action)
-    result = {"observation": obs.model_dump(), "done": obs.done, "reward": obs.reward}
+    result = {"observation": obs.model_dump(), "done": obs.done, "reward": _clamp_reward(obs.reward)}
     if obs.done:
         result["episode_summary"] = env.get_episode_summary()
         sessions.remove(session_id)
