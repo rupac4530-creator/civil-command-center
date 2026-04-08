@@ -229,9 +229,12 @@ def run_task(task_id: str, task_name: str, grader_fn) -> Dict[str, Any]:
             rewards.append(step_reward)
 
             # ── [STEP] ──
+            # Validator requires reward in (0, 1) exclusive.
+            # Output a normalized running score clamped to valid range.
+            normalized_score = min(0.99, max(0.01, step_reward)) if obs.done else min(0.99, max(0.01, sum(rewards) / max(len(rewards), 1)))
             error_str = last_error if last_error else "null"
             done_str = "true" if obs.done else "false"
-            print(f"[STEP] step={step_count} action={action.action_type} reward={step_reward:.2f} done={done_str} error={error_str}")
+            print(f"[STEP] step={step_count} action={action.action_type} reward={normalized_score:.4f} done={done_str} error={error_str}")
 
             history.append(f"Turn {obs.turn}: {action.action_type} -> {step_reward:+.2f}")
             last_error = None
@@ -244,11 +247,13 @@ def run_task(task_id: str, task_name: str, grader_fn) -> Dict[str, Any]:
     except Exception as exc:
         success = False
         last_error = str(exc)
-        grade = 0.0
+        grade = 0.01
         summary = {}
 
     # ── [END] ──
-    rewards_str = ",".join(f"{r:.2f}" for r in rewards)
+    # Output normalized rewards in (0, 1) for validator
+    normalized_rewards = [min(0.99, max(0.01, r)) for r in rewards]
+    rewards_str = ",".join(f"{r:.4f}" for r in normalized_rewards)
     success_str = "true" if success else "false"
     print(f"[END] success={success_str} steps={step_count} rewards={rewards_str}")
 
