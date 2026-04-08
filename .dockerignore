@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# Python cache
+__pycache__
+*.py[cod]
+*.egg-info
+dist
+build
+
+# IDE
+.vscode
+.idea
+
+# Environment
+.env
+.venv
+venv
+
+# Temp files
+tmp_*.js
+tmp_*.py
+out.txt
+output.txt
+test_output.txt
+test_results.txt
+memory_test_log.txt
+baseline_results.json
+
+# Tests (not needed in production image)
+tests/
+
+# OS
+.DS_Store
+Thumbs.db

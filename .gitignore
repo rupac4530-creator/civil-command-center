@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp files
+tmp_*.js
+tmp_*.py
+out.txt
+output.txt
+test_output.txt
+test_results.txt
+memory_test_log.txt
+baseline_results.json
+
+# Large video assets (use HF Space for these)
+assets/*.mp4
+
+# Runtime data
+data/cross_run_memory.json
+
+# Docker
+*.log

@@ -1,0 +1,89 @@
+name: civil_command_center
+version: "1.0.0"
+description: >
+  Civil Command Center: An AI Civilization Leader Training Environment.
+  The agent is the leader of a growing civilization. Each turn it receives
+  messages from citizens, scientists, workers, defense units, traders,
+  diplomats, advisors, and world events. It must decide how to act —
+  balancing survival, growth, technology, morale, and defense.
+  Features delayed-consequence memory, adaptive personality tracking,
+  and multi-era progression (Tribal → Bronze → Iron → Industrial → Modern).
+
+author: Bedanta Chatterjee
+email: rupac4530@gmail.com
+
+entry_point: server.app:app
+server_command: "uvicorn server.app:app --host 0.0.0.0 --port 8000"
+
+environment:
+  class: server.environment:CivilCommandCenter
+  action_model: models:CivAction
+  observation_model: models:CivObservation
+  state_model: models:CivState
+  supports_concurrent_sessions: true
+  max_concurrent_envs: 100
+
+tasks:
+  - id: task_demo_5
+    name: "Quick Demo (5 Turns)"
+    difficulty: easy
+    description: "A rapid 5-turn showcase for judges and quick testing."
+    max_turns: 5
+
+  - id: task_easy
+    name: "Survival — Keep the Village Alive"
+    difficulty: easy
+    description: "Lead a village for 10 turns. Handle citizen and worker messages. Avoid collapse."
+    max_turns: 10
+
+  - id: task_demo_10
+    name: "Standard Demo (10 Turns)"
+    difficulty: medium
+    description: "A 10-turn demo showing delayed consequences and mid-term stability."
+    max_turns: 10
+
+  - id: task_medium
+    name: "Growth — Build a Thriving Settlement"
+    difficulty: medium
+    description: "Grow population and technology over 20 turns. Reach Bronze Era."
+    max_turns: 20
+
+  - id: task_hard
+    name: "Era Advancement — Rise of a Civilization"
+    difficulty: hard
+    description: "Survive 30 turns of crises, wars, and disasters. Reach Iron Era or beyond."
+    max_turns: 30
+
+built_in_agents:
+  - name: random
+    description: "Picks a random action every turn — baseline for comparison."
+  - name: greedy
+    description: "Always picks short-term resource gains — ignores crises."
+  - name: logical
+    description: "Prioritizes critical crises, then balances resource needs."
+
+endpoints:
+  health: GET /health
+  reset: POST /reset
+  step: POST /step/{session_id}
+  state: GET /state/{session_id}
+  websocket: WS /ws
+  env_info: GET /env-info
+  simulate: POST /simulate
+  simulate_batch: POST /simulate/batch
+  web_ui: GET /web
+  docs: GET /docs
+
+tags:
+  - openenv
+  - civilization
+  - strategy
+  - reinforcement-learning
+  - agent-evaluation
+  - decision-making
+  - delayed-consequences
+  - multi-era
+  - meta-hackathon
+
+license: MIT
+
