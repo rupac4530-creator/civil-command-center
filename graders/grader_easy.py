@@ -59,4 +59,4 @@ def grade_easy(episode_summary: Dict[str, Any]) -> float:
     else:
         score += 0.05
 
-    return round(min(1.0, max(0.0, score)), 4)
+    return round(min(0.99, max(0.01, score)), 4)

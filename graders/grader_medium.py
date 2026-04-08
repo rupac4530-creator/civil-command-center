@@ -65,4 +65,4 @@ def grade_medium(episode_summary: Dict[str, Any]) -> float:
     # ── 15%: Progress score ──────────────────────────────────
     score += 0.15 * min(1.0, progress / 80)
 
-    return round(min(1.0, max(0.0, score)), 4)
+    return round(min(0.99, max(0.01, score)), 4)
