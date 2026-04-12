@@ -35,7 +35,7 @@ def grade_hard(episode_summary: Dict[str, Any]) -> float:
     progress = episode_summary.get("progress_score", 0)
     danger = episode_summary.get("danger_level", 0)
     turns = episode_summary.get("turns_played", 1)
-    max_turns = episode_summary.get("max_turns", 30)
+    max_turns = max(episode_summary.get("max_turns", 30), 1)
 
     # ── 20%: Survival ────────────────────────────────────────
     if not collapse:

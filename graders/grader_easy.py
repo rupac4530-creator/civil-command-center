@@ -26,14 +26,14 @@ def grade_easy(episode_summary: Dict[str, Any]) -> float:
     correct = episode_summary.get("correct_actions", 0)
     handled = episode_summary.get("messages_handled", 0)
     turns = episode_summary.get("turns_played", 1)
-    max_turns = episode_summary.get("max_turns", 10)
+    max_turns = max(episode_summary.get("max_turns", 10), 1)
 
     # ── 40%: Survival ────────────────────────────────────────
     if not collapse:
         survival = 1.0
         # Bonus for population retention
         if pop_peak > 0:
-            retention = pop_final / pop_peak
+            retention = pop_final / max(pop_peak, 1)
             survival = 0.6 + 0.4 * min(1.0, retention)
         score += 0.40 * survival
     else:

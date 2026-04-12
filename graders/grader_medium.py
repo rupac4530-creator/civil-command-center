@@ -32,7 +32,7 @@ def grade_medium(episode_summary: Dict[str, Any]) -> float:
     handled = episode_summary.get("messages_handled", 0)
     progress = episode_summary.get("progress_score", 0)
     turns = episode_summary.get("turns_played", 1)
-    max_turns = episode_summary.get("max_turns", 20)
+    max_turns = max(episode_summary.get("max_turns", 20), 1)
 
     # ── 25%: Survival & population growth ────────────────────
     if not collapse:
