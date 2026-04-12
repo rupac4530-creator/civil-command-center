@@ -1,0 +1,10 @@
+# Force LF line endings for all text files
+* text=auto eol=lf
+*.py text eol=lf
+*.txt text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.cfg text eol=lf
